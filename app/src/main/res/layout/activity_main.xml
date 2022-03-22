@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#989898"
+    android:scrollbarTrackHorizontal="@android:drawable/alert_dark_frame"
     tools:context=".MainActivity">
 
     <Spinner
@@ -17,18 +18,44 @@
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.586" />
+        app:layout_constraintVertical_bias="0.353" />
 
     <Spinner
         android:id="@+id/dateSpinner"
         android:layout_width="278dp"
         android:layout_height="48dp"
-        android:layout_marginTop="164dp"
+        android:layout_marginTop="112dp"
         android:background="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Spinner
+        android:id="@+id/startTimeSpinner"
+        android:layout_width="172dp"
+        android:layout_height="53dp"
+        android:layout_marginTop="28dp"
+        android:background="#FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/getShowsButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.154"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dateSpinner"
+        app:layout_constraintVertical_bias="0.4" />
+
+    <Spinner
+        android:id="@+id/endTimeSpinner"
+        android:layout_width="172dp"
+        android:layout_height="53dp"
+        android:layout_marginTop="28dp"
+        android:background="#FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/getShowsButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.933"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dateSpinner"
+        app:layout_constraintVertical_bias="0.4" />
 
     <Button
         android:id="@+id/getShowsButton"
@@ -38,10 +65,10 @@
         android:text="HAE NÄYTÖKSET"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dateSpinner"
-        app:layout_constraintVertical_bias="0.163" />
+        app:layout_constraintVertical_bias="0.275" />
 
     <ListView
         android:id="@+id/showListView"

@@ -37,9 +37,12 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<String> date_array = new ArrayList<>();
     ArrayList<Theatre> theatre_array = theatreData.getTheatreArray();
     ArrayList<Show> show_array = new ArrayList<>();
+    ArrayList<String> times_array = new ArrayList<>();
 
     private Spinner theatreSpinner;
     private Spinner dateSpinner;
+    private Spinner startTimeSpinner;
+    private Spinner endTimeSpinner;
     private ListView showList;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -55,13 +58,13 @@ public class MainActivity extends AppCompatActivity {
         readAreaXML();
         initializeTheatreSpinner();
         initializeDateSpinner();
+        initializeTimesSpinner();
     }
 
     private void initializeTheatreSpinner(){
         theatreSpinner = findViewById(R.id.theatreSpinner);
 
-        ArrayAdapter<Theatre> theatreAdapter = new ArrayAdapter<Theatre>(getApplicationContext(),  androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, theatre_array);
-        theatreAdapter.setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item);
+        ArrayAdapter<Theatre> theatreAdapter = new ArrayAdapter<Theatre>(this,android.R.layout.simple_spinner_item, theatre_array);
 
         theatreSpinner.setAdapter(theatreAdapter);
     }
@@ -75,9 +78,7 @@ public class MainActivity extends AppCompatActivity {
             date_array.add(dtf.format(now.plusDays(i)));
         }
 
-        ArrayAdapter<String> dateAdapter = new ArrayAdapter<String>(getApplicationContext(),  androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, date_array);
-        dateAdapter.setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item);
-
+        ArrayAdapter<String> dateAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, date_array);
         dateSpinner.setAdapter(dateAdapter);
     }
 
@@ -85,6 +86,28 @@ public class MainActivity extends AppCompatActivity {
         showList = findViewById(R.id.showListView);
         ArrayAdapter<Show> showListAdapter = new ArrayAdapter<Show>(getApplicationContext(), android.R.layout.simple_spinner_item, show_array);
         showList.setAdapter(showListAdapter);
+    }
+
+    private void initializeTimesSpinner(){
+        endTimeSpinner = findViewById(R.id.endTimeSpinner);
+        startTimeSpinner = findViewById(R.id.startTimeSpinner);
+
+        for (int i = 0; i < 24; i++) {
+            for (int j = 0; j < 6; j++) {
+                if (i < 10) {
+                    times_array.add("0" + i + ":" + j + "0");
+                }
+                else {
+                    times_array.add(i + ":" + j + "0");
+                }
+            }
+        }
+
+        ArrayAdapter<String> timesAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, times_array);
+        startTimeSpinner.setAdapter(timesAdapter);
+        endTimeSpinner.setAdapter(timesAdapter);
+        startTimeSpinner.setSelection(90);
+        endTimeSpinner.setSelection(120);
     }
 
     private void readAreaXML(){
@@ -130,14 +153,17 @@ public class MainActivity extends AppCompatActivity {
 
                 if (node.getNodeType() == Node.ELEMENT_NODE) {
                     Element element = (Element) node;
-                    show_array.add(new Show(
-                            element.getElementsByTagName("Title").item(0).getTextContent(),
-                            element.getElementsByTagName("dttmShowStart").item(0).getTextContent(),
-                            element.getElementsByTagName("dttmShowEnd").item(0).getTextContent(),
-                            element.getElementsByTagName("TheatreAuditorium").item(0).getTextContent()));
-                    System.out.println(element.getElementsByTagName("Title").item(0).getTextContent());
-                }
 
+                    show_array.add(new Show(
+                        element.getElementsByTagName("Title").item(0).getTextContent(),
+                        element.getElementsByTagName("dttmShowStart").item(0).getTextContent(),
+                        element.getElementsByTagName("dttmShowEnd").item(0).getTextContent(),
+                        element.getElementsByTagName("TheatreAuditorium").item(0).getTextContent()));
+                    if (show_array.get(show_array.size()-1).getStartTime().compareTo(startTimeSpinner.getSelectedItem().toString()) < 0
+                            || show_array.get(show_array.size()-1).getStartTime().compareTo(endTimeSpinner.getSelectedItem().toString()) > 0) {
+                        show_array.remove(show_array.size()-1);
+                    }
+                }
             }
 
         } catch (ParserConfigurationException | IOException | SAXException e) {
