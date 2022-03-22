@@ -34,11 +34,14 @@ public class MainActivity extends AppCompatActivity {
 
     MainActivity context = null;
     TheatreData theatreData = TheatreData.getInstance();
+
+    // Defining all the arrays
     ArrayList<String> date_array = new ArrayList<>();
     ArrayList<Theatre> theatre_array = theatreData.getTheatreArray();
     ArrayList<Show> show_array = new ArrayList<>();
     ArrayList<String> times_array = new ArrayList<>();
 
+    // Defining the elements on the UI
     private Spinner theatreSpinner;
     private Spinner dateSpinner;
     private Spinner startTimeSpinner;
@@ -61,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
         initializeTimesSpinner();
     }
 
+    // Method for setting up the dropdown menu for the desired theatre/area
     private void initializeTheatreSpinner(){
         theatreSpinner = findViewById(R.id.theatreSpinner);
 
@@ -69,11 +73,13 @@ public class MainActivity extends AppCompatActivity {
         theatreSpinner.setAdapter(theatreAdapter);
     }
 
+    // Method for setting up the dropdown menu for the desired date
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void initializeDateSpinner(){
         dateSpinner = findViewById(R.id.dateSpinner);
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         LocalDateTime now = LocalDateTime.now();
+        // Loop for creating available dates, starting from the current date
         for (int i = 0; i < 11; i++) {
             date_array.add(dtf.format(now.plusDays(i)));
         }
@@ -82,16 +88,19 @@ public class MainActivity extends AppCompatActivity {
         dateSpinner.setAdapter(dateAdapter);
     }
 
+    // Method for setting up the list of shows
     private void initializeShowList(){
         showList = findViewById(R.id.showListView);
         ArrayAdapter<Show> showListAdapter = new ArrayAdapter<Show>(getApplicationContext(), android.R.layout.simple_spinner_item, show_array);
         showList.setAdapter(showListAdapter);
     }
 
+    // Method for setting up the dropdown menus for choosing a specific start time
     private void initializeTimesSpinner(){
         endTimeSpinner = findViewById(R.id.endTimeSpinner);
         startTimeSpinner = findViewById(R.id.startTimeSpinner);
 
+        // Loop that creates time values from 00:00 to 23:50
         for (int i = 0; i < 24; i++) {
             for (int j = 0; j < 6; j++) {
                 if (i < 10) {
@@ -106,10 +115,11 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter<String> timesAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, times_array);
         startTimeSpinner.setAdapter(timesAdapter);
         endTimeSpinner.setAdapter(timesAdapter);
-        startTimeSpinner.setSelection(90);
-        endTimeSpinner.setSelection(120);
+        startTimeSpinner.setSelection(90); // default value at 15:00
+        endTimeSpinner.setSelection(120); // default value at 20:00
     }
 
+    // Method for reading the date of the available theatres
     private void readAreaXML(){
         DocumentBuilder builder = null;
         try {
@@ -118,12 +128,12 @@ public class MainActivity extends AppCompatActivity {
             String theatreURL = "https://www.finnkino.fi/xml/TheatreAreas/";
             Document doc = builder.parse(theatreURL);
             doc.getDocumentElement().normalize();
-
+            // Getting data from all the theatres/areas
             NodeList nodeList = doc.getDocumentElement().getElementsByTagName("TheatreArea");
 
             for (int i = 0; i < nodeList.getLength(); i++) {
                 Node node = nodeList.item(i);
-
+                // Condition for storing name and id for each theatre/area
                 if (node.getNodeType() == Node.ELEMENT_NODE) {
                     Element element = (Element) node;
                     theatreData.getTheatreArray().add(new Theatre(element.getElementsByTagName("Name").item(0).getTextContent(), element.getElementsByTagName("ID").item(0).getTextContent()));
@@ -136,8 +146,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // Method for reading the data of the specific theatre for a specific date
     private void readShowXML(String id, String date) {
-        show_array.clear();
+        show_array.clear(); // clears the list
         DocumentBuilder builder = null;
         try {
 
@@ -150,7 +161,8 @@ public class MainActivity extends AppCompatActivity {
 
             for (int i = 0; i < nodeList.getLength(); i++) {
                 Node node = nodeList.item(i);
-
+                // Condition for storing all the shows in the specific theatre/area on the spesific date
+                // Data stored is the title of the movie, starting and ending times and the auditorium
                 if (node.getNodeType() == Node.ELEMENT_NODE) {
                     Element element = (Element) node;
 
@@ -159,6 +171,8 @@ public class MainActivity extends AppCompatActivity {
                         element.getElementsByTagName("dttmShowStart").item(0).getTextContent(),
                         element.getElementsByTagName("dttmShowEnd").item(0).getTextContent(),
                         element.getElementsByTagName("TheatreAuditorium").item(0).getTextContent()));
+                    // Condition for checking if the show starts on the desired time window (that the user has chosen)
+                    // If so, the show is removed from the array
                     if (show_array.get(show_array.size()-1).getStartTime().compareTo(startTimeSpinner.getSelectedItem().toString()) < 0
                             || show_array.get(show_array.size()-1).getStartTime().compareTo(endTimeSpinner.getSelectedItem().toString()) > 0) {
                         show_array.remove(show_array.size()-1);
@@ -171,6 +185,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // Method for updating the list of shows to the UI
     public void getShows(View v) {
         int selectedTheatreIndex = theatreSpinner.getSelectedItemPosition();
         int selectedDateIndex = dateSpinner.getSelectedItemPosition();
