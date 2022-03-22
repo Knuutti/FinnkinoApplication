@@ -16,4 +16,8 @@ public class Theatre {
         return print;
     }
 
+    public String getId(){
+        return this.theatre_id;
+    }
+
 }

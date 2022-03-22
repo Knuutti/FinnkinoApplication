@@ -4,65 +4,52 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#989898"
     tools:context=".MainActivity">
 
     <Spinner
         android:id="@+id/theatreSpinner"
         android:layout_width="278dp"
         android:layout_height="48dp"
-        android:background="#FFC107"
+        android:background="#FFFFFF"
         app:layout_constraintBottom_toTopOf="@+id/dateSpinner"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.18" />
+        app:layout_constraintVertical_bias="0.586" />
 
     <Spinner
         android:id="@+id/dateSpinner"
-        android:layout_width="152dp"
-        android:layout_height="38dp"
-        android:layout_marginBottom="56dp"
-        android:background="#FFC107"
-        app:layout_constraintBottom_toTopOf="@+id/timeSpinner"
+        android:layout_width="278dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="164dp"
+        android:background="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/getShowsButton"
+        android:layout_width="212dp"
+        android:layout_height="59dp"
+        android:onClick="getShows"
+        android:text="HAE NÄYTÖKSET"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.98" />
+        app:layout_constraintTop_toBottomOf="@+id/dateSpinner"
+        app:layout_constraintVertical_bias="0.163" />
 
-    <Spinner
-        android:id="@+id/timeSpinner"
-        android:layout_width="147dp"
-        android:layout_height="48dp"
-        android:background="#FFC107"
+    <ListView
+        android:id="@+id/showListView"
+        android:layout_width="316dp"
+        android:layout_height="179dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.46" />
-
-    <Spinner
-        android:id="@+id/movieSpinner"
-        android:layout_width="147dp"
-        android:layout_height="48dp"
-        android:background="#FFC107"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.488"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.582" />
-
-    <Spinner
-        android:id="@+id/placeSpinner"
-        android:layout_width="147dp"
-        android:layout_height="48dp"
-        android:background="#FFC107"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.462"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.708" />
+        app:layout_constraintTop_toBottomOf="@+id/getShowsButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
