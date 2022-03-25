@@ -11,8 +11,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 
-import java.lang.reflect.Array;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -23,7 +21,6 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -69,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
         theatreSpinner = findViewById(R.id.theatreSpinner);
 
         ArrayAdapter<Theatre> theatreAdapter = new ArrayAdapter<Theatre>(this,android.R.layout.simple_spinner_item, theatre_array);
-
         theatreSpinner.setAdapter(theatreAdapter);
     }
 

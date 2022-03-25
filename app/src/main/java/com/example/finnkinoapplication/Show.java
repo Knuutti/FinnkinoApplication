@@ -22,7 +22,7 @@ public class Show {
 
     @Override
     public String toString() {
-        String print = this.show_title + ", " + this.startTime + "-" + this.endTime;
+        String print = this.show_title + ", " + this.startTime + "-" + this.endTime + ", " + this.show_auditorium;
         return print;
     }
 
